@@ -27,9 +27,9 @@ public class TunaPianoDBContext : DbContext
 
         // Seed data for songs
         modelBuilder.Entity<Song>().HasData(
-            new Song { SongId = 1, SongName = "Hello", ArtistId = 1, AlbumName = "25", Length = TimeSpan.FromMinutes(4) + TimeSpan.FromSeconds(55) },
-            new Song { SongId = 2, SongName = "Shape of You", ArtistId = 2, AlbumName = "÷", Length = TimeSpan.FromMinutes(3) + TimeSpan.FromSeconds(54) },
-            new Song { SongId = 3, SongName = "Enter Sandman", ArtistId = 3, AlbumName = "Metallica", Length = TimeSpan.FromMinutes(5) + TimeSpan.FromSeconds(29) }
+            new Song { SongId = 1, SongName = "Hello", ArtistId = 1, AlbumName = "25", Length = "4:55" },
+            new Song { SongId = 2, SongName = "Shape of You", ArtistId = 2, AlbumName = "÷", Length = "3:54" },
+            new Song { SongId = 3, SongName = "Enter Sandman", ArtistId = 3, AlbumName = "Metallica", Length = "5:29" }
         );
 
         // Seed data for genres
