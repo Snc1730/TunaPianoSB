@@ -18,6 +18,11 @@ public class TunaPianoDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Song>()
+               .HasMany(g => g.Genres)
+               .WithMany(s => s.Songs)
+               .UsingEntity(sg => sg.ToTable("SongGenre"));
+
         // Seed data for artists
         modelBuilder.Entity<Artist>().HasData(
             new Artist { ArtistId = 1, ArtistName = "Adele", Age = 33, Bio = "British singer-songwriter" },

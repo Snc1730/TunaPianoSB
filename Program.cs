@@ -247,17 +247,12 @@ app.MapGet("/api/songs", (TunaPianoDBContext db) =>
 });
 
 // Details view of a single Song and its associated genres and artist details
-app.MapGet("/api/songs/{id}", (TunaPianoDBContext db, int id) =>
+app.MapGet("api/songs/{id}", async (TunaPianoDBContext db, int id) =>
 {
-    var song = db.Songs
-        .Include(s => s.Genres)
-        .Include(s => s.Artist)
-        .SingleOrDefault(s => s.SongId == id);
-
-    if (song == null)
-    {
-        return Results.NotFound();
-    }
+    var song = await db.Songs
+    .Include(s => s.Genres)
+    .Include(s => s.Artist)
+        .FirstOrDefaultAsync(s => s.SongId == id);
 
     return Results.Ok(song);
 });
