@@ -190,10 +190,36 @@ app.MapGet("/api/genres/{id}", (TunaPianoDBContext db, int id) =>
 // Create a Song
 app.MapPost("/api/songs", async (TunaPianoDBContext db, Song song) =>
 {
+    if (song.Genres != null && song.Genres.Count > 0)
+    {
+        var genre = song.Genres.FirstOrDefault();
+
+        if (genre != null && genre.GenreId > 0)
+        {
+            // Check if the genre with the provided genreId exists
+            var existingGenre = db.Genres.FirstOrDefault(g => g.GenreId == genre.GenreId);
+
+            if (existingGenre != null)
+            {
+                // Assign the existing genre to the song
+                song.Genres = new List<Genre> { existingGenre };
+            }
+            else
+            {
+                return Results.BadRequest("Invalid genre ID provided.");
+            }
+        }
+        else
+        {
+            return Results.BadRequest("Invalid genre ID provided.");
+        }
+    }
+
     db.Songs.Add(song);
     await db.SaveChangesAsync();
     return Results.Created($"/api/songs/{song.SongId}", song);
 });
+
 
 // Delete a Song
 app.MapDelete("/api/songs/{id}", async (TunaPianoDBContext db, int id) =>
